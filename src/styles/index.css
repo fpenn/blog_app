@@ -1,0 +1,127 @@
+body {
+
+	background-color: #bc8f8f;
+}
+
+h1 {
+
+	font-size: 50px;
+	margin-top: 100px;
+	text-align: center;
+	color: white;
+	font-family: "Arial", Georgia, Sans-Serif;	
+	
+}
+
+
+#menu {
+
+	margin-top: 100px;
+	text-align: center;
+
+}
+
+
+#login {
+
+	text-decoration: none;
+
+	font-family: "Arial", Georgia, Sans-Serif;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 20px;
+	padding-left: 20px;
+	margin-right: 20px;
+	font-size: 25px;
+	background-color: yellow;
+	color: purple;
+}
+#regist {
+
+	text-decoration: none;
+	font-family: "Arial", Georgia, Sans-Serif;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 20px;
+	padding-left: 20px;
+	font-size: 25px;
+	background-color: yellow;
+	color: purple;
+}
+
+#login:hover {
+
+	background-color: purple;
+	color: white;
+}
+
+
+
+#regist:hover {
+
+	background-color: purple;
+	color: white;
+}
+
+
+
+#loginForm {
+
+	color: white;
+	font-family: "Arial", Georgia, Sans-Serif;
+	display: none;
+	width: 500px;
+	height: 200px;
+	background-color: #bc8f8f;
+	text-align: center;
+	margin-left: 30%;
+	margin-top: 40px;
+}
+
+#registForm {
+
+	color: white;
+	font-family: "Arial", Georgia, Sans-Serif;
+	display: none;
+	width: 500px;
+	height: 200px;
+	background-color: #bc8f8f;
+	text-align: center;
+	margin-left: 30%;
+	margin-top: 40px;
+}
+
+
+
+h3 {
+
+	font-family: "Arial", Georgia, Sans-Serif;
+	color: white;
+	text-align: center;
+}
+
+#homeMenu {
+
+	text-align: center;
+	width: 800px;
+	margin-top: 60px;
+	margin-left: 20%;
+}
+
+#homeMenu a{
+
+	background-color: yellow;
+	width: auto;
+	height: auto;
+	padding: 5px;
+	font-family: "Arial", Georgia, Sans-Serif;
+	color: purple;
+	text-align: center;
+	margin-right: 15px;
+
+}
+
+#homeMenu form{
+
+	display: inline;
+}

@@ -1,0 +1,18 @@
+doctype
+html
+	head
+		title #{title} - Fre's blog
+		style(type="text/css"): include ../styles/index.css
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+
+	body
+		h1 Bloggy
+		h3= "Welcome, " + username
+		#homeMenu
+			a#create(class='button') Create
+			a#viewOwn(class='button') Your posts
+			a#all(class='button') All posts
+			form(action="http://localhost:3000/home" method="post")
+				input(type="text", name="searchBar")
+				input(type="submit", value="Search", name="search")
+

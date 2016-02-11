@@ -1,0 +1,35 @@
+doctype
+html
+	head
+		title #{title} - Fre's blog
+		style(type="text/css"): include ../styles/index.css
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+
+	body
+		h1 Bloggy
+		#menu
+			a#login(class='button') Log in
+			a#regist(class='button') Register
+		#loginForm
+			form(action="http://localhost:3000/home" method="post")
+				p Username
+				input(type="text", name="username")
+				p Password
+				input(type="text", name="password")
+				p
+				input#submit(type="submit", value="Log in" name="submit")
+		#registForm
+			form(action="http://localhost:3000/" method="post")
+				p Username
+				input(type="text", name="title")
+				p Password
+				input(type="text", name="message")
+				p Email
+				input(type="text", name="email")
+				p
+				input#submit(type="submit", value="Submit" name="submit")
+			
+			
+
+
+	script(type='text/javascript'): include ../scripts/index.js
