@@ -1,6 +1,8 @@
 body {
 
 	background-color: #bc8f8f;
+
+	font-family: "Arial", Georgia, Sans-Serif;
 }
 
 h1 {
@@ -93,11 +95,12 @@ h1 {
 
 
 
-h3 {
+#header h2 {
 
 	font-family: "Arial", Georgia, Sans-Serif;
 	color: white;
 	text-align: center;
+	margin-top: 100px;
 }
 
 #homeMenu {
@@ -105,11 +108,12 @@ h3 {
 	text-align: center;
 	width: 800px;
 	margin-top: 60px;
-	margin-left: 20%;
+	margin-left: 19%;
 }
 
 #homeMenu a{
 
+	text-decoration: none;
 	background-color: yellow;
 	width: auto;
 	height: auto;
@@ -121,7 +125,57 @@ h3 {
 
 }
 
-#homeMenu form{
+#homeMenu a:hover {
 
-	display: inline;
+	background-color: purple;
+	color: white;
+}
+
+#createForm {
+
+	margin-top: 50px;
+	text-align: center;
+	display: none;
+
+}
+
+#blogText{
+
+	height: 200px;
+	width: 200px;
+}
+
+#createForm p{
+
+	color: white;
+}
+
+#yourPosts {
+
+	display: none;
+	height: 200px;
+	width: 200px;
+	
+	margin-left: 35%;
+	margin-top: 60px;
+}
+
+#yourPosts h4 {
+
+	background: purple;
+	color: white;
+	width: 300px;
+	height: 20px;
+	padding: 5px;
+}
+
+#succesRegist {
+
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+#succesRegist p{
+
+	font-size: 15px;
+
 }

@@ -22,11 +22,34 @@ $('#regist').click(function(){
 
 });
 
-$('#submit').click(function(){
+$('#create').click(function(){
 
+	$('#yourPosts').hide();
+	$('#createForm').fadeIn("slow");
 
-	$.post('/searchResults', result, onReceiveServ);
-
- 
 
 });
+
+$('#viewOwn').click(function(){
+
+	$('#createForm').hide();
+	$('#yourPosts').fadeIn("slow");
+
+
+});
+
+$('#submitR').click(function(){
+
+	$('#registForm form').hide();
+	$('#succesRegist').append("<p>" + "You have succesfully registered. Log in with your username and password." + "</p>")
+
+
+});	
+
+
+$.post('/addBlog', function(){
+
+	$('#createForm').hide();
+	$('#yourPosts').fadeIn("slow");
+
+})
