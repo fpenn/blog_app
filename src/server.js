@@ -82,6 +82,11 @@ var Post = sequelize.define('blogs', {
 	body: {
 
 		type: Sequelize.TEXT
+	},
+
+	postid: {
+
+		type: Sequelize.INTEGER
 	}
 
 	
@@ -97,19 +102,12 @@ app.get('/', function(request, response) {
 
 });
 
-var username = '';
-var password = '';
 
 
 app.get('/home', function(request, response) {
 
 	var user = request.session.user;
-	// var username = user.username;
-	// var password = user.password
-
-	// console.log(username);
-	// console.log(password);
-
+	
 	if (user === undefined) {
 		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
 
@@ -127,8 +125,7 @@ app.get('/home', function(request, response) {
 
 app.post('/login', bodyParser.urlencoded({extended: true}), function(request, response) {
 
-	//console.log(request.body.username);
-
+	
 	User.findOne({
 		 where: {username: request.body.username}
 	}).then(function (user) {
@@ -155,9 +152,6 @@ app.post('/register', function(request, response) {
 	var passwordRegist = request.body.passwordR
 	var emailRegist = request.body.emailR
 
-	console.log(usernameRegist);
-	console.log(passwordRegist);
-
 	sequelize.sync().then(function() {
 
 		User.create({
@@ -175,30 +169,107 @@ app.post('/register', function(request, response) {
 
 app.post('/addBlog', function(request, response) {
 
-	//console.log(request);
+	var user = request.session.user;
 	var title = request.body.blogTitle
-	var body = request.body.body
+	var body = request.body.bodyBlog
+
+	var postID = user.id;
 
 	sequelize.sync().then(function() {
 
 		Post.create({
 
 			title: title,
-			body: body
+			body: body,
+			postid: postID
 			
-
 		});
 
+
 	});
+
+
 });
 
 app.get('/logout', function (request, response) {
+
 	request.session.destroy(function(error) {
 		if(error) {
 			throw error;
 		}
 		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
 	})
+});
+
+app.get('/profile', function (request, response){
+
+	var user = request.session.user;
+	
+	//console.log(id);
+
+	if (user === undefined) {
+		
+		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+
+	} else {
+
+	var id = user.id
+
+	Post.findAll({
+
+		where: {
+
+			postid: id			
+		}
+
+	}).then(function (posts) {
+		
+		var data = posts.map(function(post) {
+			return {
+				title: post.dataValues.title,
+				body: post.dataValues.body
+			};
+					
+	});
+
+	response.render('profile', {username: user.username, data: data} );
+
+	});
+}
+
+});
+
+app.get('/allposts', function (request, response){
+
+	var user = request.session.user;
+
+
+	if (user === undefined) {
+		
+		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+
+	} else {
+
+	var id = user.id
+
+	Post.findAll().then(function (posts) {
+		
+		var data = posts.map(function(post) {
+			return {
+				title: post.dataValues.title,
+				body: post.dataValues.body
+			};
+					
+	});
+
+	response.render('allposts', {username: user.username, data: data} );
+
+	});
+	}
+
+	
+
+
 });
 
 var server = app.listen(3000);

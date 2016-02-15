@@ -24,19 +24,12 @@ $('#regist').click(function(){
 
 $('#create').click(function(){
 
-	$('#yourPosts').hide();
+	
 	$('#createForm').fadeIn("slow");
 
 
 });
 
-$('#viewOwn').click(function(){
-
-	$('#createForm').hide();
-	$('#yourPosts').fadeIn("slow");
-
-
-});
 
 $('#submitR').click(function(){
 
@@ -47,9 +40,9 @@ $('#submitR').click(function(){
 });	
 
 
-$.post('/addBlog', function(){
+// $.post('/addBlog', function(){
 
-	$('#createForm').hide();
-	$('#yourPosts').fadeIn("slow");
+// 	$('#createForm').hide();
+// 	$('#yourPosts').fadeIn("slow");
 
-})
+// })

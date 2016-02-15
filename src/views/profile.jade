@@ -11,20 +11,18 @@ html
 			h2= username + "'s homepage"
 		
 		#homeMenu
-			a#create(class='button') Create
+			a#create(class='button' href='/home') Create
 			a#viewOwn(class='button' href='/profile') Your blog posts
 			a#all(class='button' href='/allposts') All blog posts
 			a#logout(class='button' href='/logout') Log out
 
-		#createForm
-			form(action="http://localhost:3000/addBlog" id="addBlog" method="post")
-				p Blog title
-				input(type="text", name="blogTitle")
-				p Text
-				textarea#blogText(form="addBlog" name="bodyBlog") Write your blog..
-				p
-				input(type="submit", value="Post" name="submit")
-		
+		#yourPosts
+			ul
+				each i in data
+					h4= i.title
+					li= i.body
+			
+
 
 
 	script(type='text/javascript'): include ../scripts/index.js

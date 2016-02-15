@@ -135,7 +135,7 @@ h1 {
 
 	margin-top: 50px;
 	text-align: center;
-	display: none;
+	
 
 }
 
@@ -152,21 +152,25 @@ h1 {
 
 #yourPosts {
 
-	display: none;
-	height: 200px;
-	width: 200px;
-	
-	margin-left: 35%;
+	height: auto;
+	width: 600px;
+	margin-bottom: 40px;
+	margin-left: 20%;
 	margin-top: 60px;
 }
 
 #yourPosts h4 {
 
-	background: purple;
 	color: white;
 	width: 300px;
 	height: 20px;
-	padding: 5px;
+	padding: 3px;
+}
+
+#yourPosts li {
+
+	list-style-type: none;
+	margin-bottom: 40px;
 }
 
 #succesRegist {
@@ -178,4 +182,27 @@ h1 {
 
 	font-size: 15px;
 
+}
+
+#allPosts {
+
+	height: auto;
+	width: 600px;
+	margin-bottom: 40px;
+	margin-left: 20%;
+	margin-top: 60px;
+}
+
+#allPosts h4 {
+
+	color: white;
+	width: 300px;
+	height: 20px;
+	padding: 3px;
+}
+
+#allPosts li {
+
+	list-style-type: none;
+	margin-bottom: 40px;
 }
