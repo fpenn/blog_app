@@ -69,6 +69,7 @@ h1 {
 
 #loginForm {
 
+
 	color: white;
 	font-family: "Arial", Georgia, Sans-Serif;
 	display: none;
@@ -193,16 +194,61 @@ h1 {
 	margin-top: 60px;
 }
 
-#allPosts h4 {
+#blogTitle {
 
+	display: block;
+	text-decoration:none;
 	color: white;
-	width: 300px;
-	height: 20px;
-	padding: 3px;
+	margin-top: 30px;
+	font-size: 20px;
+
+	
+}
+
+#allPosts p {
+
+	margin-top: 0px;
+	font-size: 12px;
 }
 
 #allPosts li {
 
 	list-style-type: none;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
+	
+}
+
+#buttonComment {
+
+	font-size: 13px;
+	color: purple;
+	margin-bottom: 20px;
+
+}
+
+#commentForm {
+
+	margin-top: 20px;
+	margin-bottom: 20px;
+	display: none;
+
+}
+
+#individualBlog {
+
+
+	width: 600px;
+	margin: 0 auto;
+
+}
+
+#individualBlog h4{
+
+	margin-top: 60px;
+	color: white;
+}
+
+#individualBlog li{
+
+	list-style-type: none;
 }

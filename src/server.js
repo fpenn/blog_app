@@ -8,7 +8,10 @@ var session = require('express-session');
 
 var app = express();
 
-app.use(bodyParser.urlencoded({	extended: true}));
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+
 app.use(session({
 	secret: 'dunno what this does',
 	resave: true,
@@ -27,9 +30,9 @@ var sequelize = new Sequelize('blog_app', 'postgres', null, {
 	host: 'localhost',
 	dialect: 'postgres',
 	define: {
-    underscored: true,
-    timestamps: false
-  }
+		underscored: true,
+		timestamps: false
+	}
 });
 
 
@@ -39,7 +42,7 @@ var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process
 // Model for creating Users
 
 var User = sequelize.define('users', {
-	
+
 	id: {
 		type: Sequelize.INTEGER,
 		primaryKey: true,
@@ -47,9 +50,9 @@ var User = sequelize.define('users', {
 	},
 
 	username: {
-		
+
 		type: Sequelize.STRING
-		
+
 	},
 
 	password: {
@@ -61,13 +64,13 @@ var User = sequelize.define('users', {
 		type: Sequelize.STRING
 	}
 
-	
+
 });
 
 // Model for Blog posts
 
 var Post = sequelize.define('blogs', {
-	
+
 	id: {
 		type: Sequelize.INTEGER,
 		primaryKey: true,
@@ -75,7 +78,7 @@ var Post = sequelize.define('blogs', {
 	},
 
 	title: {
-		
+
 		type: Sequelize.TEXT
 	},
 
@@ -89,10 +92,36 @@ var Post = sequelize.define('blogs', {
 		type: Sequelize.INTEGER
 	}
 
-	
+
 });
 
+//Model for comments
 
+var Comment = sequelize.define('comments', {
+
+	id: {
+		type: Sequelize.INTEGER,
+		primaryKey: true,
+		autoIncrement: true
+	},
+
+	comment: {
+
+		type: Sequelize.TEXT
+	},
+
+	userid: {
+
+		type: Sequelize.TEXT
+	},
+
+	postid: {
+
+		type: Sequelize.INTEGER
+	}
+
+
+});
 
 // Routes
 
@@ -107,7 +136,7 @@ app.get('/', function(request, response) {
 app.get('/home', function(request, response) {
 
 	var user = request.session.user;
-	
+
 	if (user === undefined) {
 		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
 
@@ -123,15 +152,19 @@ app.get('/home', function(request, response) {
 });
 
 
-app.post('/login', bodyParser.urlencoded({extended: true}), function(request, response) {
+app.post('/login', bodyParser.urlencoded({
+	extended: true
+}), function(request, response) {
 
-	
+
 	User.findOne({
-		 where: {username: request.body.username}
-	}).then(function (user) {
-		
-		
-		if(request.body.password === user.password){
+		where: {
+			username: request.body.username
+		}
+	}).then(function(user) {
+
+
+		if (request.body.password === user.password) {
 
 			request.session.user = user;
 			response.redirect('/home');
@@ -140,9 +173,9 @@ app.post('/login', bodyParser.urlencoded({extended: true}), function(request, re
 
 			response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
 		}
-			
+
 	});
-	
+
 });
 
 
@@ -182,7 +215,7 @@ app.post('/addBlog', function(request, response) {
 			title: title,
 			body: body,
 			postid: postID
-			
+
 		});
 
 
@@ -191,85 +224,133 @@ app.post('/addBlog', function(request, response) {
 
 });
 
-app.get('/logout', function (request, response) {
+app.get('/logout', function(request, response) {
 
 	request.session.destroy(function(error) {
-		if(error) {
+		if (error) {
 			throw error;
 		}
 		response.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
 	})
 });
 
-app.get('/profile', function (request, response){
+
+
+app.get('/profile', function(request, response) {
 
 	var user = request.session.user;
-	
+
 	//console.log(id);
 
 	if (user === undefined) {
-		
+
 		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
 
 	} else {
 
-	var id = user.id
+		var id = user.id
 
-	Post.findAll({
+		Post.findAll({
 
-		where: {
+			where: {
 
-			postid: id			
-		}
+				postid: id
+			}
 
-	}).then(function (posts) {
-		
-		var data = posts.map(function(post) {
-			return {
-				title: post.dataValues.title,
-				body: post.dataValues.body
-			};
-					
-	});
+		}).then(function(posts) {
 
-	response.render('profile', {username: user.username, data: data} );
+			var data = posts.map(function(post) {
+				return {
+					title: post.dataValues.title,
+					body: post.dataValues.body
+				};
 
-	});
-}
+			});
+
+			response.render('profile', {
+				username: user.username,
+				data: data
+			});
+
+		});
+	}
 
 });
 
-app.get('/allposts', function (request, response){
+app.get('/allposts', function(request, response) {
 
 	var user = request.session.user;
 
 
 	if (user === undefined) {
-		
+
 		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
 
 	} else {
 
-	var id = user.id
+		var id = user.id
 
-	Post.findAll().then(function (posts) {
-		
-		var data = posts.map(function(post) {
-			return {
-				title: post.dataValues.title,
-				body: post.dataValues.body
-			};
-					
-	});
+		Post.findAll().then(function(posts) {
 
-	response.render('allposts', {username: user.username, data: data} );
 
-	});
+			var data = posts.map(function(post) {
+				return {
+					title: post.dataValues.title,
+					body: post.dataValues.body,
+					postid: post.dataValues.postid,
+					id: post.dataValues.id
+				};
+			});
+
+
+
+			response.render('allposts', {
+				username: user.username,
+				data: data
+			});
+
+		});
+
 	}
 
-	
-
-
 });
+
+
+app.get('/blog/:blogId', function(request, response) {
+
+			var user = request.session.user;
+			var blogid = request.params.blogId
+			console.log(blogid);
+
+
+			if (user === undefined) {
+
+				response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+
+			} else {
+				Post.findOne({
+
+					where: {id: blogid
+
+
+					}
+
+				}).then(function(posts) {
+
+						console.log(posts);
+						var blogtitle = posts.dataValues.title;
+						var blogtext = posts.dataValues.body;
+						
+						response.render('blogpage', {
+							username: user.username, blogtitle: blogtitle, blogtext: blogtext
+						});
+
+					});
+
+		
+
+		};
+
+			});
 
 var server = app.listen(3000);
