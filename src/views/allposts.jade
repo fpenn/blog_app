@@ -20,15 +20,8 @@ html
 			ul
 				each i in data
 					a#blogTitle(class="button" href='/blog/' + i.id)= i.title
-					p= "Written by user: " + i.postid
-					li= i.body
-					a#buttonComment(class="button") Leave a comment
-					#commentForm
-						form(action="http://localhost:3000/addBlog" id="addBlog" method="post")
-							textarea#comment(form="addBlog" name="bodyBlog") Write a comment..
-							p
-							input#postComment(type="submit", value="Post" name="submit")
-
-
+					p= "Written by user: " + i.userId
+					li= i.content
+					
 
 	script(type='text/javascript'): include ../scripts/index.js

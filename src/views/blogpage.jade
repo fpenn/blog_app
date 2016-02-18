@@ -18,7 +18,23 @@ html
 		#individualBlog
 			ul
 				h4= blogtitle
+				p= "Written by user: " + userid
 				li= blogtext
+		#commentSection
+				h4 Comments
+				ul
+					each i in comment
+						p#commenter= "User " + i.author + " wrote the following comment:"
+						p= '"' + i.comment + '"'
+		
+				
+		#commentForm
+			a#buttonComment(class="button") Leave a comment
+			form(action="http://localhost:3000/addComment" id="addComment" method="post")
+				textarea#comment(form="addComment" name="comment") Write a comment..
+				p
+				input#postComment(type="submit", value="Post" name="submit")
+
 
 
 

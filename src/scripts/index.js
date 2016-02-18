@@ -37,6 +37,7 @@ $('#submitR').click(function() {
 
 });
 
+
 $('#postBlog').click(function() {
 
 
@@ -46,29 +47,33 @@ $('#postBlog').click(function() {
 
 });
 
-// $.get('/leaveComment', function(){
+// $('#buttonComment').click(function() {
 
-// 	$('#commentForm').fadeIn("fast");
+// 	if ($('#commentForm').is(":hidden")) {
+
+// 		$('#commentForm').fadeIn("fast")
+
+// 	} else {
+
+// 		$('#commentForm').fadeOut("fast")
+// 	}
+
 
 // });
 
-$('#buttonComment').click(function() {
+// $('#commentForm form').submit(function() {
 
-	if ($('#commentForm').is(":hidden")) {
-
-		$('#commentForm').fadeIn("fast")
-
-	} else {
-
-		$('#commentForm').fadeOut("fast")
-	}
-
-
-});
-
-$('#allPosts h4').click(function() {
+// 	location.reload();
+// 	var comment = $('#comment').val();
+// 	//$('#commenter').append("<p>" + "User " + userid + " wrote the following comment:" + "</p>")
+// 	$('#commentSection ul').append("<p>" + comment + "</p>" )	
 
 
 
+// });
 
-}); 
+$('#postComment').click(function(){
+
+	$('#commentForm form').fadeOut("fast");
+	location.reload();
+})

@@ -156,7 +156,7 @@ h1 {
 	height: auto;
 	width: 600px;
 	margin-bottom: 40px;
-	margin-left: 20%;
+	margin: 0 auto;
 	margin-top: 60px;
 }
 
@@ -190,7 +190,7 @@ h1 {
 	height: auto;
 	width: 600px;
 	margin-bottom: 40px;
-	margin-left: 20%;
+	margin: 0 auto;
 	margin-top: 60px;
 }
 
@@ -218,21 +218,33 @@ h1 {
 	
 }
 
-#buttonComment {
+#commentForm a {
+
+	font-size: 15px;
+	color: purple;
+	margin-bottom: 90px;
+
+}
+
+
+#commentForm form {
 
 	font-size: 13px;
 	color: purple;
-	margin-bottom: 20px;
-
+	margin-top: 25px;
 }
+
 
 #commentForm {
 
-	margin-top: 20px;
-	margin-bottom: 20px;
-	display: none;
+	margin-top: 40px;
+	margin-bottom: 50px;
+	margin-left: 29%;
+	
 
 }
+
+
 
 #individualBlog {
 
@@ -240,6 +252,12 @@ h1 {
 	width: 600px;
 	margin: 0 auto;
 
+}
+
+#individualBlog p{
+
+	margin-top: -15px;
+	font-size: 12px;
 }
 
 #individualBlog h4{
@@ -250,5 +268,31 @@ h1 {
 
 #individualBlog li{
 
+	margin-top: 20px;
+	margin-bottom: 40px;
 	list-style-type: none;
 }
+
+#commentSection  {
+
+	width: 530px;
+	margin: 0 auto;
+
+}
+
+#commentSection h4 {
+
+	color: purple;
+
+}
+#commenter {
+
+	font-size: 11px;
+}
+
+#commentSection p {
+
+	margin-left: -40px;
+	margin-bottom: 20px;
+}
+

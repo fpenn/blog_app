@@ -19,8 +19,8 @@ html
 		#yourPosts
 			ul
 				each i in data
-					h4= i.title
-					li= i.body
+					a#blogTitle(class="button" href='/blog/' + i.id)= i.title
+					li= i.content
 			
 
 

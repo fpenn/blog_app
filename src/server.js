@@ -36,6 +36,7 @@ var sequelize = new Sequelize('blog_app', 'postgres', null, {
 });
 
 
+
 //var connectionString = "postgres://postgres:0000@localhost/blog_app";
 var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/blog_app';
 
@@ -82,16 +83,10 @@ var Post = sequelize.define('blogs', {
 		type: Sequelize.TEXT
 	},
 
-	body: {
+	content: {
 
 		type: Sequelize.TEXT
-	},
-
-	postid: {
-
-		type: Sequelize.INTEGER
 	}
-
 
 });
 
@@ -110,18 +105,22 @@ var Comment = sequelize.define('comments', {
 		type: Sequelize.TEXT
 	},
 
-	userid: {
+	author: {
 
 		type: Sequelize.TEXT
-	},
-
-	postid: {
-
-		type: Sequelize.INTEGER
 	}
 
-
 });
+
+//Relation between models
+
+User.hasMany(Post, {foreignKey: 'userId'});
+Post.belongsTo(User, {foreignKey: 'userId'});
+
+Post.hasMany(Comment);
+Comment.belongsTo(Post);
+
+//sequelize.sync();
 
 // Routes
 
@@ -185,7 +184,7 @@ app.post('/register', function(request, response) {
 	var passwordRegist = request.body.passwordR
 	var emailRegist = request.body.emailR
 
-	sequelize.sync().then(function() {
+
 
 		User.create({
 
@@ -197,7 +196,7 @@ app.post('/register', function(request, response) {
 
 	});
 
-});
+
 
 
 app.post('/addBlog', function(request, response) {
@@ -206,23 +205,20 @@ app.post('/addBlog', function(request, response) {
 	var title = request.body.blogTitle
 	var body = request.body.bodyBlog
 
-	var postID = user.id;
+	
 
-	sequelize.sync().then(function() {
 
 		Post.create({
-
 			title: title,
-			body: body,
-			postid: postID
+			content: body,
+			userId: user.id
 
 		});
-
 
 	});
 
 
-});
+
 
 app.get('/logout', function(request, response) {
 
@@ -254,7 +250,7 @@ app.get('/profile', function(request, response) {
 
 			where: {
 
-				postid: id
+				userId: id
 			}
 
 		}).then(function(posts) {
@@ -262,11 +258,14 @@ app.get('/profile', function(request, response) {
 			var data = posts.map(function(post) {
 				return {
 					title: post.dataValues.title,
-					body: post.dataValues.body
+					content: post.dataValues.content,
+					id: post.dataValues.id
 				};
 
-			});
 
+
+			});
+			//console.log(data);
 			response.render('profile', {
 				username: user.username,
 				data: data
@@ -296,9 +295,9 @@ app.get('/allposts', function(request, response) {
 			var data = posts.map(function(post) {
 				return {
 					title: post.dataValues.title,
-					body: post.dataValues.body,
-					postid: post.dataValues.postid,
-					id: post.dataValues.id
+					content: post.dataValues.content,
+					id: post.dataValues.id,
+					userId: id
 				};
 			});
 
@@ -315,42 +314,109 @@ app.get('/allposts', function(request, response) {
 
 });
 
+var blogid = '';
+
 
 app.get('/blog/:blogId', function(request, response) {
 
-			var user = request.session.user;
-			var blogid = request.params.blogId
-			console.log(blogid);
+	var user = request.session.user;
+	blogid = request.params.blogId;
+
+	var blogtitle = undefined;
+	var blogtext = undefined;
+	var userid = undefined;
+	var dataComment = undefined;
+	var author = undefined;
+
+	if (user === undefined) {
+
+		response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+
+	} else {
+
+		Post.findOne({
+
+			where: {
+				id: blogid
+
+			}
+
+		}).then(function(posts) {
+
+			//console.log(posts);
+			blogtitle = posts.dataValues.title;
+			blogtext = posts.dataValues.content;
+			userid = user.id;
+
+			
+			// console.log(blogtitle);
+			// console.log(blogtext);
+		});
 
 
-			if (user === undefined) {
 
-				response.redirect('/?message=' + encodeURIComponent("Please log in to view your profile."));
+		Comment.findAll({
 
-			} else {
-				Post.findOne({
+				where: {
 
-					where: {id: blogid
+					blog_id: blogid
+				}
+			}).then(function(comments) {
+
+				var dataComment = comments.map(function(comments) {
+
+					return {
+
+						comment: comments.dataValues.comment,
+						author: comments.dataValues.author
+
+					};
+
+				
+				});
 
 
-					}
 
-				}).then(function(posts) {
+				response.render('blogpage', {
+					username: user.username,
+					blogtitle: blogtitle,
+					blogtext: blogtext,
+					userid: userid,
+					comment: dataComment,
+					
+					
+				});
 
-						console.log(posts);
-						var blogtitle = posts.dataValues.title;
-						var blogtext = posts.dataValues.body;
-						
-						response.render('blogpage', {
-							username: user.username, blogtitle: blogtitle, blogtext: blogtext
-						});
+			})
 
-					});
 
-		
+	};
 
-		};
+});
 
-			});
 
-var server = app.listen(3000);
+app.post('/addComment', function(request, response) {
+
+	var user = request.session.user;
+	//console.log(request);
+	
+
+	console.log(blogid);
+
+		Comment.create({
+
+			comment: request.body.comment,
+			author: user.id,
+			blog_id: blogid
+
+		});
+
+	
+
+});
+
+sequelize.sync().then(function(){
+
+	var server = app.listen(3000);
+})
+
