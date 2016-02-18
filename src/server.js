@@ -114,8 +114,12 @@ var Comment = sequelize.define('comments', {
 
 //Relation between models
 
-User.hasMany(Post, {foreignKey: 'userId'});
-Post.belongsTo(User, {foreignKey: 'userId'});
+User.hasMany(Post, {
+	foreignKey: 'userId'
+});
+Post.belongsTo(User, {
+	foreignKey: 'userId'
+});
 
 Post.hasMany(Comment);
 Comment.belongsTo(Post);
@@ -186,16 +190,15 @@ app.post('/register', function(request, response) {
 
 
 
-		User.create({
+	User.create({
 
-			username: usernameRegist,
-			password: passwordRegist,
-			email: emailRegist
-
-		});
+		username: usernameRegist,
+		password: passwordRegist,
+		email: emailRegist
 
 	});
 
+});
 
 
 
@@ -205,18 +208,20 @@ app.post('/addBlog', function(request, response) {
 	var title = request.body.blogTitle
 	var body = request.body.bodyBlog
 
-	
 
+	Post.create({
+		title: title,
+		content: body,
+		userId: user.id
 
-		Post.create({
-			title: title,
-			content: body,
-			userId: user.id
-
-		});
-
+	}).then(function(newpost) {
+		console.log(newpost);
+		response.redirect('/blog/' + newpost.dataValues.id);
+	}, function(error) {
+		response.send("Your blog has not been succesfully posted.");
 	});
 
+});
 
 
 
@@ -348,7 +353,7 @@ app.get('/blog/:blogId', function(request, response) {
 			blogtext = posts.dataValues.content;
 			userid = user.id;
 
-			
+
 			// console.log(blogtitle);
 			// console.log(blogtext);
 		});
@@ -357,37 +362,38 @@ app.get('/blog/:blogId', function(request, response) {
 
 		Comment.findAll({
 
-				where: {
+			where: {
 
-					blog_id: blogid
-				}
-			}).then(function(comments) {
+				blog_id: blogid
+			}
+		}).then(function(comments) {
 
-				var dataComment = comments.map(function(comments) {
+			var dataComment = comments.map(function(comments) {
 
-					return {
+				return {
 
-						comment: comments.dataValues.comment,
-						author: comments.dataValues.author
+					comment: comments.dataValues.comment,
+					author: comments.dataValues.author,
+					id: comments.dataValues.id
 
-					};
-
-				
-				});
+				};
 
 
+			});
 
-				response.render('blogpage', {
-					username: user.username,
-					blogtitle: blogtitle,
-					blogtext: blogtext,
-					userid: userid,
-					comment: dataComment,
-					
-					
-				});
 
-			})
+
+			response.render('blogpage', {
+				username: user.username,
+				blogtitle: blogtitle,
+				blogtext: blogtext,
+				userid: userid,
+				comment: dataComment,
+
+
+			});
+
+		})
 
 
 	};
@@ -399,24 +405,32 @@ app.post('/addComment', function(request, response) {
 
 	var user = request.session.user;
 	//console.log(request);
-	
+
 
 	console.log(blogid);
 
-		Comment.create({
+	Comment.create({
 
-			comment: request.body.comment,
-			author: user.id,
-			blog_id: blogid
+		comment: request.body.comment,
+		author: user.id,
+		blog_id: blogid
 
-		});
+	}).then(function(comment){
+
+		response.redirect('/blog/' + blogid + '#comment' + comment.dataValues.id);
+
+	}, function(error){
+
+		response.send("Failed to post comment.")
+	});
 
 	
 
+
+
 });
 
-sequelize.sync().then(function(){
+sequelize.sync().then(function() {
 
 	var server = app.listen(3000);
 })
-

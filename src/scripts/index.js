@@ -38,42 +38,19 @@ $('#submitR').click(function() {
 });
 
 
-$('#postBlog').click(function() {
+// $('#postBlog').click(function() {
 
 
-	$('#createForm form').fadeOut("fast");
-	$('#succesPost').append("<p>" + "Your blog has been succesfully posted." + "</p>");
-
-
-});
-
-// $('#buttonComment').click(function() {
-
-// 	if ($('#commentForm').is(":hidden")) {
-
-// 		$('#commentForm').fadeIn("fast")
-
-// 	} else {
-
-// 		$('#commentForm').fadeOut("fast")
-// 	}
+// 	$('#createForm form').fadeOut("fast");
+// 	$('#succesPost').append("<p>" + "Your blog has been succesfully posted." + "</p>");
 
 
 // });
 
-// $('#commentForm form').submit(function() {
 
-// 	location.reload();
-// 	var comment = $('#comment').val();
-// 	//$('#commenter').append("<p>" + "User " + userid + " wrote the following comment:" + "</p>")
-// 	$('#commentSection ul').append("<p>" + comment + "</p>" )	
-
-
-
-// });
 
 $('#postComment').click(function(){
 
 	$('#commentForm form').fadeOut("fast");
-	location.reload();
-})
+	
+});
