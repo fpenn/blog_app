@@ -35,9 +35,6 @@ var sequelize = new Sequelize('blog_app', 'postgres', null, {
 	}
 });
 
-
-
-//var connectionString = "postgres://postgres:0000@localhost/blog_app";
 var connectionString = 'postgres://' + process.env.POSTGRES_USER + ':' + process.env.POSTGRES_PASSWORD + '@localhost/blog_app';
 
 // Model for creating Users
@@ -130,6 +127,7 @@ Comment.belongsTo(Post);
 
 app.get('/', function(request, response) {
 
+	//var message = request.params.message;
 	response.render('landing');
 
 });
@@ -270,7 +268,7 @@ app.get('/profile', function(request, response) {
 
 
 			});
-			//console.log(data);
+			
 			response.render('profile', {
 				username: user.username,
 				data: data
@@ -302,7 +300,7 @@ app.get('/allposts', function(request, response) {
 					title: post.dataValues.title,
 					content: post.dataValues.content,
 					id: post.dataValues.id,
-					userId: id
+					userId: post.dataValues.userId
 				};
 			});
 
@@ -313,7 +311,11 @@ app.get('/allposts', function(request, response) {
 				data: data
 			});
 
-		});
+		}, function(error){
+
+			response.send("Couldn't find the posts. Abort mission. Affirmative")
+
+		})
 
 	}
 
@@ -348,14 +350,13 @@ app.get('/blog/:blogId', function(request, response) {
 
 		}).then(function(posts) {
 
-			//console.log(posts);
 			blogtitle = posts.dataValues.title;
 			blogtext = posts.dataValues.content;
-			userid = user.id;
+			userid = posts.dataValues.userId;
 
+		}, function(error){
 
-			// console.log(blogtitle);
-			// console.log(blogtext);
+			response.send("Error error")
 		});
 
 
@@ -379,6 +380,9 @@ app.get('/blog/:blogId', function(request, response) {
 				};
 
 
+			}, function(error){
+
+				response.send("Failed to sync comment with database.")
 			});
 
 
@@ -404,11 +408,7 @@ app.get('/blog/:blogId', function(request, response) {
 app.post('/addComment', function(request, response) {
 
 	var user = request.session.user;
-	//console.log(request);
-
-
-	console.log(blogid);
-
+	
 	Comment.create({
 
 		comment: request.body.comment,
@@ -425,7 +425,6 @@ app.post('/addComment', function(request, response) {
 	});
 
 	
-
 
 
 });

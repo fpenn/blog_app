@@ -32,7 +32,7 @@ html
 		#commentForm
 			a#buttonComment(class="button") Leave a comment
 			form(action="http://localhost:3000/addComment" id="addComment" method="post")
-				textarea#comment(form="addComment" name="comment") Write a comment..
+				textarea#comment(form="addComment" name="comment" placeholder="Write your comment..")
 				p
 				input#postComment(type="submit", value="Post" name="submit")
 
