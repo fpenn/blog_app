@@ -1,0 +1,29 @@
+I have three models/tabels.
+
+Post, user, comment.
+
+User:
+id (Primary Key)
+username
+password
+email
+
+
+Post:
+
+id (Primary Key)
+Title
+Content
+userId (Foreign Key)
+
+Comment:
+
+id (Primary Key)
+Comment
+Author
+blog_id (Foreign Key)
+
+
+There is a relation between User and Post. User.hasMany(Post), Post.belongsTo(User). 
+There's also a relation between Comment and Post. Post.hasMany(Comment), Comment.belongsTo(Post).
+This explains the presence of the foreign keys in the Post and the Comment table.
