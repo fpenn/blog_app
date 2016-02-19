@@ -27,3 +27,34 @@ blog_id (Foreign Key)
 There is a relation between User and Post. User.hasMany(Post), Post.belongsTo(User). 
 There's also a relation between Comment and Post. Post.hasMany(Comment), Comment.belongsTo(Post).
 This explains the presence of the foreign keys in the Post and the Comment table.
+
+
+Routes
+-------------
+
+
+GET REQUESTS:
+
+'/'  === the page where you can login/register
+
+'/home' === landing page when logged in. Here you have a menu to add blogs/view all blogs and so on
+
+'/profile' === page on which you can view a list of your own blogs
+
+'/allBlogs' === page with all blogs
+
+'/logout'  === destroys session
+
+'/blog/blogId === page for individual blog posts. Here you can view/leave comments
+
+
+POST REQUESTS:
+
+'/addComment' === adding comments
+
+'/addBlog' === adding blogs
+
+'/register'  === registering 
+
+'/login'  === entering login details
+
