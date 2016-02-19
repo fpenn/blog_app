@@ -128,7 +128,7 @@ Comment.belongsTo(Post);
 app.get('/', function(request, response) {
 
 	var message = request.query.message;
-	console.log(message);
+	//console.log(message);
 	if(message === undefined){
 
 		message === false;
@@ -170,20 +170,21 @@ app.post('/login', bodyParser.urlencoded({
 
 	User.findOne({
 		where: {
-			username: request.body.username
+			username: request.body.username,
+			password: request.body.password
 		}
 	}).then(function(user) {
 
+		if(user === null){
 
-		if (request.body.password === user.password) {
-
-			request.session.user = user;
-			response.redirect('/home');
+			response.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
 
 		} else {
 
-			response.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+			request.session.user = user;
+			response.redirect('/home');
 		}
+
 
 	});
 
