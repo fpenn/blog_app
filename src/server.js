@@ -127,9 +127,19 @@ Comment.belongsTo(Post);
 
 app.get('/', function(request, response) {
 
-	//var message = request.params.message;
-	response.render('landing');
+	var message = request.query.message;
+	console.log(message);
+	if(message === undefined){
 
+		message === false;
+		response.render('landing', {message:message});
+
+	} else {
+
+		response.render('landing', {message: message});
+	}
+
+	
 });
 
 

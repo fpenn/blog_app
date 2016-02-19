@@ -22,8 +22,9 @@ $('#regist').click(function() {
 
 $('#create').click(function() {
 
-
+	$('#message').hide();
 	$('#createForm').fadeIn("slow");
+
 
 
 });

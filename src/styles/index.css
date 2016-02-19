@@ -297,3 +297,9 @@ h1 {
 	margin-bottom: 20px;
 }
 
+#message{
+
+	margin-bottom: -20px;
+	color: white;
+	text-align: center;
+}
