@@ -197,17 +197,6 @@ app.post('/register', function(request, response) {
 	var passwordRegist = request.body.passwordR
 	var emailRegist = request.body.emailR
 	
-	User.findAll({
-
-		where: {
-
-			username: usernameRegist
-		}
-	}).then(function(user){
-
-		console.log(user)
-	})
-
 
 	User.create({
 
