@@ -30,13 +30,13 @@ $('#create').click(function() {
 });
 
 
-$('#submitR').click(function() {
+// $('#submitR').click(function() {
 
-	$('#registForm form').fadeOut("fast");
-	$('#succesRegist').append("<p>" + "You have succesfully registered. Log in with your username and password." + "</p>")
+// 	$('#registForm form').fadeOut("fast");
+// 	$('#succesRegist').append("<p>" + "You have succesfully registered. Log in with your username and password." + "</p>")
 
 
-});
+// });
 
 
 // $('#postBlog').click(function() {

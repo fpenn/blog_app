@@ -49,7 +49,9 @@ var User = sequelize.define('users', {
 
 	username: {
 
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		allowNull: false,
+       	unique: true  
 
 	},
 
@@ -59,7 +61,9 @@ var User = sequelize.define('users', {
 	},
 
 	email: {
-		type: Sequelize.STRING
+		type: Sequelize.STRING,
+		allowNull: false,
+       	unique: true
 	}
 
 
@@ -204,7 +208,15 @@ app.post('/register', function(request, response) {
 		password: passwordRegist,
 		email: emailRegist
 
+	}).then(function(){
+
+		response.redirect('/?message=' + encodeURIComponent("You have succesfully registered. Log in with your username and password."));
+	}, function(error){
+
+		response.redirect('/?message=' + encodeURIComponent("Username or email already exists."));
 	});
+
+
 
 });
 
@@ -338,6 +350,10 @@ app.get('/blog/:blogId', function(request, response) {
 
 	var user = request.session.user;
 	blogid = request.params.blogId;
+
+	console.log(blogid);
+
+	console.log(user);
 
 	var blogtitle = undefined;
 	var blogtext = undefined;
