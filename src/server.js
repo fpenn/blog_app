@@ -51,7 +51,7 @@ var User = sequelize.define('users', {
 
 		type: Sequelize.STRING,
 		allowNull: false,
-       	unique: true  
+		unique: true
 
 	},
 
@@ -63,7 +63,7 @@ var User = sequelize.define('users', {
 	email: {
 		type: Sequelize.STRING,
 		allowNull: false,
-       	unique: true
+		unique: true
 	}
 
 
@@ -133,17 +133,21 @@ app.get('/', function(request, response) {
 
 	var message = request.query.message;
 	//console.log(message);
-	if(message === undefined){
+	if (message === undefined) {
 
 		message === false;
-		response.render('landing', {message:message});
+		response.render('landing', {
+			message: message
+		});
 
 	} else {
 
-		response.render('landing', {message: message});
+		response.render('landing', {
+			message: message
+		});
 	}
 
-	
+
 });
 
 
@@ -179,7 +183,7 @@ app.post('/login', bodyParser.urlencoded({
 		}
 	}).then(function(user) {
 
-		if(user === null){
+		if (user === null) {
 
 			response.redirect('/?message=' + encodeURIComponent("Invalid email or password."))
 
@@ -200,7 +204,7 @@ app.post('/register', function(request, response) {
 	var usernameRegist = request.body.usernameR
 	var passwordRegist = request.body.passwordR
 	var emailRegist = request.body.emailR
-	
+
 
 	User.create({
 
@@ -208,10 +212,10 @@ app.post('/register', function(request, response) {
 		password: passwordRegist,
 		email: emailRegist
 
-	}).then(function(){
+	}).then(function() {
 
 		response.redirect('/?message=' + encodeURIComponent("You have succesfully registered. Log in with your username and password."));
-	}, function(error){
+	}, function(error) {
 
 		response.redirect('/?message=' + encodeURIComponent("Username or email already exists."));
 	});
@@ -229,17 +233,32 @@ app.post('/addBlog', function(request, response) {
 	var body = request.body.bodyBlog
 
 
-	Post.create({
-		title: title,
-		content: body,
-		userId: user.id
+	User.findOne({
 
-	}).then(function(newpost) {
-		console.log(newpost);
-		response.redirect('/blog/' + newpost.dataValues.id);
-	}, function(error) {
-		response.send("Your blog has not been succesfully posted.");
+		where: {
+			id: user.id
+		}
+	}).then(function(userPost) {
+
+		console.log(userPost.dataValues.id);
+		Post.create({
+
+			title: title,
+			content: body,
+			userId: userPost.dataValues.id
+		}).then(function(newPost) {
+
+			response.redirect('/blog/' + newPost.dataValues.id);
+
+		}, function(error) {
+
+			response.send("Your blog has not been succesfully posted.");
+
+		});
+
+
 	});
+
 
 });
 
@@ -290,7 +309,7 @@ app.get('/profile', function(request, response) {
 
 
 			});
-			
+
 			response.render('profile', {
 				username: user.username,
 				data: data
@@ -333,7 +352,7 @@ app.get('/allposts', function(request, response) {
 				data: data
 			});
 
-		}, function(error){
+		}, function(error) {
 
 			response.send("Couldn't find the posts. Abort mission. Affirmative")
 
@@ -351,9 +370,6 @@ app.get('/blog/:blogId', function(request, response) {
 	var user = request.session.user;
 	blogid = request.params.blogId;
 
-	console.log(blogid);
-
-	console.log(user);
 
 	var blogtitle = undefined;
 	var blogtext = undefined;
@@ -380,7 +396,7 @@ app.get('/blog/:blogId', function(request, response) {
 			blogtext = posts.dataValues.content;
 			userid = posts.dataValues.userId;
 
-		}, function(error){
+		}, function(error) {
 
 			response.send("Error error")
 		});
@@ -406,7 +422,7 @@ app.get('/blog/:blogId', function(request, response) {
 				};
 
 
-			}, function(error){
+			}, function(error) {
 
 				response.send("Failed to sync comment with database.")
 			});
@@ -434,23 +450,22 @@ app.get('/blog/:blogId', function(request, response) {
 app.post('/addComment', function(request, response) {
 
 	var user = request.session.user;
-	
+
 	Comment.create({
 
 		comment: request.body.comment,
 		author: user.id,
 		blog_id: blogid
 
-	}).then(function(comment){
+	}).then(function(comment) {
 
 		response.redirect('/blog/' + blogid + '#comment' + comment.dataValues.id);
 
-	}, function(error){
+	}, function(error) {
 
 		response.send("Failed to post comment.")
 	});
 
-	
 
 
 });
