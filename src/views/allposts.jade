@@ -20,7 +20,7 @@ html
 			ul
 				each i in data
 					a#blogTitle(class="button" href='/blog/' + i.id)= i.title
-					p= "Written by user: " + i.userId
+					p= "Written by user: " + i.author
 					li= i.content
 					
 

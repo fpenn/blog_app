@@ -25,7 +25,7 @@ html
 				ul
 					each i in comment
 						a(name='comment' + i.id)
-						p#commenter= "User " + i.author + " wrote the following comment:"
+						p#commenter= i.author + " wrote the following comment:"
 						p= '"' + i.comment + '"'
 		
 				

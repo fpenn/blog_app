@@ -87,6 +87,11 @@ var Post = sequelize.define('blogs', {
 	content: {
 
 		type: Sequelize.TEXT
+	},
+
+	author: {
+
+		type: Sequelize.TEXT
 	}
 
 });
@@ -241,11 +246,14 @@ app.post('/addBlog', function(request, response) {
 	}).then(function(userPost) {
 
 		console.log(userPost.dataValues.id);
+
 		Post.create({
 
 			title: title,
 			content: body,
-			userId: userPost.dataValues.id
+			userId: userPost.dataValues.id,
+			author: userPost.dataValues.username
+
 		}).then(function(newPost) {
 
 			response.redirect('/blog/' + newPost.dataValues.id);
@@ -341,7 +349,7 @@ app.get('/allposts', function(request, response) {
 					title: post.dataValues.title,
 					content: post.dataValues.content,
 					id: post.dataValues.id,
-					userId: post.dataValues.userId
+					author: post.dataValues.author
 				};
 			});
 
@@ -394,7 +402,7 @@ app.get('/blog/:blogId', function(request, response) {
 
 			blogtitle = posts.dataValues.title;
 			blogtext = posts.dataValues.content;
-			userid = posts.dataValues.userId;
+			userid = posts.dataValues.author;
 
 		}, function(error) {
 
@@ -451,11 +459,20 @@ app.post('/addComment', function(request, response) {
 
 	var user = request.session.user;
 
-	Comment.create({
+	User.findOne({
+		
+		where: {
+			id: user.id
+		}
+
+	}).then(function(user){
+
+		Comment.create({
 
 		comment: request.body.comment,
-		author: user.id,
+		author: user.dataValues.username,
 		blog_id: blogid
+
 
 	}).then(function(comment) {
 
@@ -470,6 +487,7 @@ app.post('/addComment', function(request, response) {
 
 });
 
+});
 sequelize.sync().then(function() {
 
 	var server = app.listen(3000);
